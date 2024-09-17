@@ -1,7 +1,8 @@
+import { Users } from './../../../../mocks/users.js';
 import { readFileSync } from 'node:fs';
 
 import { FileReader } from './file-reader.interface.js';
-import { Offer, OfferType } from '../../types/index.js';
+import { Offer, OfferType, User } from '../../types/index.js';
 
 export class TSVFileReader implements FileReader {
   private rawData = '';
@@ -57,7 +58,7 @@ export class TSVFileReader implements FileReader {
       guests: this.parseStringToNumber(guests),
       price: this.parseStringToNumber(price),
       features: this.parseFeatures(features),
-      user
+      user: this.parseUser(user)
     };
   }
 
@@ -71,6 +72,14 @@ export class TSVFileReader implements FileReader {
 
   private parseStringToNumber(value: string): number {
     return Number.parseInt(value, 10);
+  }
+
+  private parseUser(username: string): User {
+    const userIndex = Users.findIndex((user) => user.name === username);
+    if (userIndex === -1) {
+      throw new Error(`User "${username}" not found in mock data`);
+    }
+    return Users[userIndex];
   }
 
   public read(): void {
