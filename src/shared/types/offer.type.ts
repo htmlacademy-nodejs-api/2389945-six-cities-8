@@ -1,7 +1,7 @@
 import { OfferType, Image, Feature, User, Location, City } from './index.js';
 
 export type Offer = {
-  name: string;
+  title: string;
   description: string;
   postDate: Date;
   city: City;

@@ -25,7 +25,7 @@ export class TSVFileReader implements FileReader {
 
   private parseLineToOffer(line: string): Offer {
     const [
-      name,
+      title,
       description,
       postDate,
       city,
@@ -45,7 +45,7 @@ export class TSVFileReader implements FileReader {
     ] = line.split('\t');
 
     return {
-      name,
+      title,
       description,
       postDate: new Date(postDate),
       city: this.parseCity(city),
