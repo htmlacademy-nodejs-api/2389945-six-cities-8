@@ -11,18 +11,17 @@ export class TSVFileReader implements FileReader {
     private readonly filename: string
   ) { }
 
-  private validateRawData(): void {
+  private validateRawData = (): void => {
     if (!this.rawData) {
       throw new Error('File was not read');
     }
-  }
+  };
 
-  private parseRawDataToOffers(): Offer[] {
-    return this.rawData
+  private parseRawDataToOffers = (): Offer[] =>
+    this.rawData
       .split('\n')
       .filter((row) => row.trim().length > 0)
       .map((line) => this.parseLineToOffer(line));
-  }
 
   private parseLineToOffer(line: string): Offer {
     const [
@@ -54,49 +53,39 @@ export class TSVFileReader implements FileReader {
       images: this.parseImages(images),
       premium,
       favorite,
-      rating: this.parseStringToNumber(rating),
+      rating: Number(rating),
       type: OfferType[type as 'apartment' | 'house' | 'room' | 'hotel'],
-      rooms: this.parseStringToNumber(rooms),
-      guests: this.parseStringToNumber(guests),
-      price: this.parseStringToNumber(price),
+      rooms: Number(rooms),
+      guests: Number(guests),
+      price: Number(price),
       features: this.parseFeatures(features),
       user: this.parseUser(user),
       location: this.parseLocation(latitude, longitude)
     };
   }
 
-  private parseFeatures(featuresString: string): { name: string }[] {
-    return featuresString.split(';').map((name) => ({ name }));
-  }
+  private parseFeatures = (featuresString: string): { name: string }[] =>
+    featuresString.split(';').map((name) => ({ name }));
 
-  private parseImages(imagesString: string): { name: string }[] {
-    return imagesString.split(';').map((name) => ({ name }));
-  }
+  private parseImages = (imagesString: string): { name: string }[] => imagesString.split(';').map((name) => ({ name }));
 
-  private parseStringToNumber(value: string): number {
-    return Number.parseInt(value, 10);
-  }
-
-  private parseUser(username: string): User {
+  private parseUser = (username: string): User => {
     const userIndex = Users.findIndex((user) => user.name === username);
     if (userIndex === -1) {
       throw new Error(`User "${username}" not found in mock data`);
     }
     return Users[userIndex];
-  }
+  };
 
-  private parseLocation(latitude: string, longitude: string): Location {
-    const location: Location = { latitude: Number(latitude), longitude: Number(longitude) };
+  private parseLocation = (latitude: string, longitude: string): Location =>
+    ({ latitude: Number(latitude), longitude: Number(longitude) });
 
-    return location;
-  }
-
-  public read(): void {
+  public read = (): void => {
     this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
-  }
+  };
 
-  public toArray(): Offer[] {
+  public toArray = (): Offer[] => {
     this.validateRawData();
     return this.parseRawDataToOffers();
-  }
+  };
 }
