@@ -2,6 +2,7 @@ import { OfferType } from './offer-type.enum.js';
 import { Image } from './image.type.js';
 import { Feature } from './feature.type.js';
 import { User } from './user.type.js';
+import { Location } from './location.type.js';
 
 export type Offer = {
   name: string;
@@ -18,7 +19,8 @@ export type Offer = {
   guests: number;
   price: number;
   features: Feature[];
-  user: User
+  user: User,
+  location: Location
 }
 
 /*

@@ -2,7 +2,7 @@ import { Users } from './../../../../mocks/users.js';
 import { readFileSync } from 'node:fs';
 
 import { FileReader } from './file-reader.interface.js';
-import { Offer, OfferType, User } from '../../types/index.js';
+import { Offer, OfferType, User, Location } from '../../types/index.js';
 
 export class TSVFileReader implements FileReader {
   private rawData = '';
@@ -40,7 +40,9 @@ export class TSVFileReader implements FileReader {
       guests,
       price,
       features,
-      user
+      user,
+      latitude,
+      longitude
     ] = line.split('\t');
 
     return {
@@ -58,7 +60,8 @@ export class TSVFileReader implements FileReader {
       guests: this.parseStringToNumber(guests),
       price: this.parseStringToNumber(price),
       features: this.parseFeatures(features),
-      user: this.parseUser(user)
+      user: this.parseUser(user),
+      location: this.parseLocation(latitude, longitude)
     };
   }
 
@@ -80,6 +83,12 @@ export class TSVFileReader implements FileReader {
       throw new Error(`User "${username}" not found in mock data`);
     }
     return Users[userIndex];
+  }
+
+  private parseLocation(latitude: string, longitude: string): Location {
+    const location: Location = { latitude: Number(latitude), longitude: Number(longitude) };
+
+    return location;
   }
 
   public read(): void {
