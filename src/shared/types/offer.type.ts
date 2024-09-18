@@ -1,14 +1,10 @@
-import { OfferType } from './offer-type.enum.js';
-import { Image } from './image.type.js';
-import { Feature } from './feature.type.js';
-import { User } from './user.type.js';
-import { Location } from './location.type.js';
+import { OfferType, Image, Feature, User, Location, City } from './index.js';
 
 export type Offer = {
   name: string;
   description: string;
   postDate: Date;
-  city: string;
+  city: City;
   previewImage: string;
   images: Image[];
   premium: string;

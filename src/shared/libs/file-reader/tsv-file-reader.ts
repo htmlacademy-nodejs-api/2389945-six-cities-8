@@ -1,8 +1,8 @@
 import { Users } from './../../../../mocks/users.js';
 import { readFileSync } from 'node:fs';
-
 import { FileReader } from './file-reader.interface.js';
-import { Offer, OfferType, User, Location } from '../../types/index.js';
+import { Offer, OfferType, User, Location, City } from '../../types/index.js';
+import { CityInfo } from '../../../const.js';
 
 export class TSVFileReader implements FileReader {
   private rawData = '';
@@ -48,7 +48,7 @@ export class TSVFileReader implements FileReader {
       name,
       description,
       postDate: new Date(postDate),
-      city,
+      city: this.parseCity(city),
       previewImage,
       images: this.parseImages(images),
       premium,
@@ -79,6 +79,14 @@ export class TSVFileReader implements FileReader {
 
   private parseLocation = (latitude: string, longitude: string): Location =>
     ({ latitude: Number(latitude), longitude: Number(longitude) });
+
+  private parseCity = (city: string): City => {
+    const cityIndex = CityInfo.findIndex((cityInfo) => cityInfo.name === city);
+    if (cityIndex === -1) {
+      throw new Error(`City "${city}" not found in mock data`);
+    }
+    return CityInfo[cityIndex];
+  };
 
   public read = (): void => {
     this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
