@@ -8,7 +8,7 @@ export type Offer = {
   city: City;
   previewImage: string;
   images: Image[];
-  premium: string;
+  isPremium: string;
   favorite: string;
   rating: number;
   type: OfferTypes;
