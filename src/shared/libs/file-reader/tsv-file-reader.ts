@@ -1,8 +1,8 @@
 import { Users } from './../../../../mocks/users.js';
 import { readFileSync } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
-import { Offer, OfferType, User, Location, City } from '../../types/index.js';
-import { CityInfo } from '../../../const.js';
+import { Offer, Image, User, Location, City, Goods } from '../../types/index.js';
+import { CityInfo, OfferTypes } from '../../../const.js';
 
 export class TSVFileReader implements FileReader {
   private rawData = '';
@@ -38,7 +38,7 @@ export class TSVFileReader implements FileReader {
       rooms,
       guests,
       price,
-      features,
+      goods,
       user,
       latitude,
       longitude
@@ -54,20 +54,21 @@ export class TSVFileReader implements FileReader {
       premium,
       favorite,
       rating: Number(rating),
-      type: OfferType[type as 'apartment' | 'house' | 'room' | 'hotel'],
+      type: OfferTypes[type as OfferTypes],
       rooms: Number(rooms),
       guests: Number(guests),
       price: Number(price),
-      features: this.parseFeatures(features),
+      goods: this.parseGoods(goods),
       user: this.parseUser(user),
       location: this.parseLocation(latitude, longitude)
     };
   }
 
-  private parseFeatures = (featuresString: string): { name: string }[] =>
-    featuresString.split(';').map((name) => ({ name }));
+  private parseGoods = (goodsString: string): Goods[] =>
+    goodsString.split(';').map((good) => good as Goods);
 
-  private parseImages = (imagesString: string): { name: string }[] => imagesString.split(';').map((name) => ({ name }));
+  private parseImages = (imagesString: string): Image[] =>
+    imagesString.split(';').map((name) => ({ name }));
 
   private parseUser = (username: string): User => {
     const userIndex = Users.findIndex((user) => user.name === username);

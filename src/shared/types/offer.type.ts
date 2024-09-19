@@ -1,4 +1,5 @@
-import { OfferType, Image, Feature, User, Location, City } from './index.js';
+import { Image, User, Location, City, Goods } from './index.js';
+import { OfferTypes } from '../../const.js';
 
 export type Offer = {
   title: string;
@@ -10,11 +11,11 @@ export type Offer = {
   premium: string;
   favorite: string;
   rating: number;
-  type: OfferType;
+  type: OfferTypes;
   rooms: number;
   guests: number;
   price: number;
-  features: Feature[];
+  goods: Goods[];
   user: User,
   location: Location
 }
