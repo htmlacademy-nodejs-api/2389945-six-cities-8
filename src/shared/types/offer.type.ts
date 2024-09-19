@@ -9,7 +9,7 @@ export type Offer = {
   previewImage: string;
   images: Image[];
   isPremium: string;
-  favorite: string;
+  isFavorite: string;
   rating: number;
   type: OfferTypes;
   rooms: number;

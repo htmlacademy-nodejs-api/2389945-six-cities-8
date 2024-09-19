@@ -1,27 +1,18 @@
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
 import { Users } from './../../../../mocks/users.js';
-import { readFileSync } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
 import { Offer, Image, User, Location, City, Goods } from '../../types/index.js';
 import { CityInfo, OfferTypes } from '../../../const.js';
 
-export class TSVFileReader implements FileReader {
-  private rawData = '';
+export class TSVFileReader extends EventEmitter implements FileReader {
+  private CHUNK_SIZE = 16384; // 16KB
 
   constructor(
     private readonly filename: string
-  ) { }
-
-  private validateRawData = (): void => {
-    if (!this.rawData) {
-      throw new Error('File was not read');
-    }
-  };
-
-  private parseRawDataToOffers = (): Offer[] =>
-    this.rawData
-      .split('\n')
-      .filter((row) => row.trim().length > 0)
-      .map((line) => this.parseLineToOffer(line));
+  ) {
+    super();
+  }
 
   private parseLineToOffer(line: string): Offer {
     const [
@@ -32,7 +23,7 @@ export class TSVFileReader implements FileReader {
       previewImage,
       images,
       isPremium,
-      favorite,
+      isFavorite,
       rating,
       type,
       rooms,
@@ -52,7 +43,7 @@ export class TSVFileReader implements FileReader {
       previewImage,
       images: this.parseImages(images),
       isPremium,
-      favorite,
+      isFavorite,
       rating: Number(rating),
       type: OfferTypes[type as OfferTypes],
       rooms: Number(rooms),
@@ -89,12 +80,29 @@ export class TSVFileReader implements FileReader {
     return CityInfo[cityIndex];
   };
 
-  public read = (): void => {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
-  };
+  public async read(): Promise<void> {
+    const readStream = createReadStream(this.filename, {
+      highWaterMark: this.CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
 
-  public toArray = (): Offer[] => {
-    this.validateRawData();
-    return this.parseRawDataToOffers();
-  };
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        const parsedOffer = this.parseLineToOffer(completeRow);
+        this.emit('line', parsedOffer);
+      }
+    }
+
+    this.emit('end', importedRowCount);
+  }
 }
