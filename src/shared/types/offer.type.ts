@@ -1,24 +1,23 @@
-import { OfferType } from './offer-type.enum.js';
-import { Image } from './image.type.js';
-import { Feature } from './feature.type.js';
-import { User } from './user.type.js';
+import { Image, User, Location, City, Goods } from './index.js';
+import { OfferTypes } from '../../const.js';
 
 export type Offer = {
-  name: string;
+  title: string;
   description: string;
   postDate: Date;
-  city: string;
+  city: City;
   previewImage: string;
   images: Image[];
-  premium: string;
-  favorite: string;
+  isPremium: string;
+  isFavorite: string;
   rating: number;
-  type: OfferType;
+  type: OfferTypes;
   rooms: number;
   guests: number;
   price: number;
-  features: Feature[];
-  user: User
+  goods: Goods[];
+  user: User,
+  location: Location
 }
 
 /*

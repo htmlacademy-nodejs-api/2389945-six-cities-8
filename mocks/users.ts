@@ -6,16 +6,22 @@ export const Users: User[] = [
     email: 'ivanpetrov@gmail.com',
     avatarPath: 'avatar1.jpg',
     password: 'pass1',
-    userType: 'pro'
+    isPro: true
   },
   {
     name: 'petrivanov',
     email: 'petrivanov@gmail.com',
-    avatarPath: 'avatar1.jpg',
-    password: 'pass1',
-    userType: ''
+    avatarPath: 'avatar2.jpg',
+    password: 'pass2',
+    isPro: false
   },
-
+  {
+    name: 'vasyapupkin',
+    email: 'vasyapupkin@gmail.com',
+    avatarPath: 'avatar3.jpg',
+    password: 'pass3',
+    isPro: false
+  }
 ];
 
 
