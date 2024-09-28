@@ -19,4 +19,3 @@ export type Offer = {
   user: User;
   location: Location;
 };
-

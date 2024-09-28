@@ -9,13 +9,13 @@ import { Component } from '../../types/index.js';
 export class RestConfig implements Config<RestSchema> {
   private readonly config: RestSchema;
 
-  constructor(
-    @inject(Component.Logger) private readonly logger: Logger
-  ) {
+  constructor(@inject(Component.Logger) private readonly logger: Logger) {
     const parsedOutput = config();
 
     if (parsedOutput.error) {
-      throw new Error('Can\'t read .env file. Perhaps the file does not exists.');
+      throw new Error(
+        'Can\'t read .env file. Perhaps the file does not exists.'
+      );
     }
 
     configRestSchema.load({});

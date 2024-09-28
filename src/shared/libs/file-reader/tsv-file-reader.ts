@@ -2,15 +2,20 @@ import EventEmitter from 'node:events';
 import { createReadStream } from 'node:fs';
 import { Users } from './../../../../mocks/users.js';
 import { FileReader } from './file-reader.interface.js';
-import { Offer, Image, User, Location, City, Goods } from '../../types/index.js';
+import {
+  Offer,
+  Image,
+  User,
+  Location,
+  City,
+  Goods,
+} from '../../types/index.js';
 import { CityInfo, OfferTypes } from '../../../const.js';
 
 export class TSVFileReader extends EventEmitter implements FileReader {
   private CHUNK_SIZE = 16384; // 16KB
 
-  constructor(
-    private readonly filename: string
-  ) {
+  constructor(private readonly filename: string) {
     super();
   }
 
@@ -32,7 +37,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       goods,
       user,
       latitude,
-      longitude
+      longitude,
     ] = line.split('\t');
 
     return {
@@ -51,7 +56,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       price: Number(price),
       goods: this.parseGoods(goods),
       user: this.parseUser(user),
-      location: this.parseLocation(latitude, longitude)
+      location: this.parseLocation(latitude, longitude),
     };
   }
 
@@ -69,8 +74,10 @@ export class TSVFileReader extends EventEmitter implements FileReader {
     return Users[userIndex];
   };
 
-  private parseLocation = (latitude: string, longitude: string): Location =>
-    ({ latitude: Number(latitude), longitude: Number(longitude) });
+  private parseLocation = (latitude: string, longitude: string): Location => ({
+    latitude: Number(latitude),
+    longitude: Number(longitude),
+  });
 
   private parseCity = (city: string): City => {
     const cityIndex = CityInfo.findIndex((cityInfo) => cityInfo.name === city);

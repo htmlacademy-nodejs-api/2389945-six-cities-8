@@ -31,4 +31,3 @@ export class ImportCommand implements Command {
     }
   }
 }
-
