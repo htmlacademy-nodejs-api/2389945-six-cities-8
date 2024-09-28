@@ -18,7 +18,7 @@
     "ts": "tsc --noEmit && node --no-warnings=ExperimentalWarning --loader ts-node/esm",
     "mock:server": "json-server ./mocks/mock-server-data.json --port 3123 --host localhost",
     "docker:dev-up": "docker compose --file ./docker-compose.dev.yml --env-file ./.env up -d",
-    "docker:dev-down": "docker compose --file ./docker-compose.dev.yml --env-file ./.env down"
+    "docker:dev-down": "docker compose --file ./docker-compose.dev.yml --env-file ./.env down -v"
   },
   "devDependencies": {
     "@types/convict": "6.1.6",
