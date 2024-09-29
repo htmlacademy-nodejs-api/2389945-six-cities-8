@@ -1,5 +1,18 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
-import { City, Offer, Image } from '../../types/index.js';
+import {
+  defaultClasses,
+  getModelForClass,
+  prop,
+  modelOptions,
+} from '@typegoose/typegoose';
+import {
+  City,
+  Offer,
+  Image,
+  Goods,
+  User,
+  Location,
+} from '../../types/index.js';
+import { OfferTypes } from '../../../const.js';
 
 const FieldProps = {
   MIN_TITLE_LENGTH: 10,
@@ -9,7 +22,17 @@ const FieldProps = {
   IMAGES_COUNT: 6,
 };
 
-export class OfferEntity implements Offer {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
+export interface OfferEntity extends defaultClasses.Base {}
+
+@modelOptions({
+  schemaOptions: {
+    collection: 'offers',
+    timestamps: true,
+  },
+})
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
+export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   @prop({
     required: true,
     minlength: [
@@ -74,44 +97,54 @@ export class OfferEntity implements Offer {
   })
   public isFavorite: boolean;
 
-  /*
-  rating: number;
-  type: OfferTypes;
-  rooms: number;
-  guests: number;
-  price: number;
-  goods: Goods[];
-  user: User;
-  location: Location;
-*/
-
-/*
   @prop({
-    unique: true,
     required: true,
-    match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is incorrect'],
+    min: 1,
+    max: 5,
   })
-  public email: string;
-
-  @prop({ required: false, default: 'avatar.jpg' })
-  public avatarPath: string;
+  public rating: number;
 
   @prop({
     required: true,
-    minlength: [
-      minPasswordLength,
-      `Min length for password is ${minPasswordLength}`,
-    ],
-    maxlength: [
-      maxPasswordLength,
-      `Max length for password is ${maxPasswordLength}`,
-    ],
   })
-  public password: string;
+  public type: OfferTypes;
 
-  @prop({ required: true, default: false })
-  public isPro: boolean;
-  */
+  @prop({
+    required: true,
+    min: 1,
+    max: 8,
+  })
+  public rooms: number;
+
+  @prop({
+    required: true,
+    min: 1,
+    max: 10,
+  })
+  public guests: number;
+
+  @prop({
+    required: true,
+    min: 100,
+    max: 100000,
+  })
+  public price: number;
+
+  @prop({
+    required: true,
+    minlength: 1,
+  })
+  public goods: Goods[];
+
+  @prop({
+    required: true,
+  })
+  public user: User;
+
+  @prop({
+    required: true,
+  })
+  public location: Location;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);
