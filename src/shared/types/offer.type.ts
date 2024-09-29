@@ -8,8 +8,8 @@ export type Offer = {
   city: City;
   previewImage: string;
   images: Image[];
-  isPremium: string;
-  isFavorite: string;
+  isPremium: boolean;
+  isFavorite: boolean;
   rating: number;
   type: OfferTypes;
   rooms: number;
