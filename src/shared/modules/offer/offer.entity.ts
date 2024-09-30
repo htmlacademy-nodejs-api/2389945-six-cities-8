@@ -7,7 +7,6 @@ import {
 } from '@typegoose/typegoose';
 import {
   City,
-  Image,
   Goods,
   Location,
 } from '../../types/index.js';
@@ -85,7 +84,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
       `Max images count is ${FieldProps.IMAGES_COUNT}`,
     ],
   })
-  public images: Image[];
+  public images: string[];
 
   @prop({
     required: true,

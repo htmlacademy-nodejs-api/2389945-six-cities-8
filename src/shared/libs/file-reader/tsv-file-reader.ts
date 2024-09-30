@@ -4,7 +4,6 @@ import { Users } from './../../../../mocks/users.js';
 import { FileReader } from './file-reader.interface.js';
 import {
   Offer,
-  Image,
   User,
   Location,
   City,
@@ -47,8 +46,8 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       city: this.parseCity(city),
       previewImage,
       images: this.parseImages(images),
-      isPremium,
-      isFavorite,
+      isPremium: Boolean(isPremium),
+      isFavorite: Boolean(isFavorite),
       rating: Number(rating),
       type: OfferTypes[type as OfferTypes],
       rooms: Number(rooms),
@@ -63,8 +62,8 @@ export class TSVFileReader extends EventEmitter implements FileReader {
   private parseGoods = (goodsString: string): Goods[] =>
     goodsString.split(';').map((good) => good as Goods);
 
-  private parseImages = (imagesString: string): Image[] =>
-    imagesString.split(';').map((name) => ({ name }));
+  private parseImages = (imagesString: string): string[] =>
+    imagesString.split(';');
 
   private parseUser = (username: string): User => {
     const userIndex = Users.findIndex((user) => user.name === username);
@@ -106,7 +105,9 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         importedRowCount++;
 
         const parsedOffer = this.parseLineToOffer(completeRow);
-        this.emit('line', parsedOffer);
+        await new Promise((resolve) => {
+          this.emit('line', parsedOffer, resolve);
+        });
       }
     }
 

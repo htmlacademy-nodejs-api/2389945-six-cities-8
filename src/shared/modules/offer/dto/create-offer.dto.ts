@@ -1,4 +1,4 @@
-import { City } from '../../../types/city.type.js';
+import { Cities } from '../../../../const.js';
 import { OfferTypes } from '../../../../const.js';
 import { Goods } from '../../../types/goods.type.js';
 import { Location } from '../../../types/location.type.js';
@@ -7,7 +7,7 @@ export class CreateOfferDto {
   public title: string;
   public description: string;
   public postDate: Date;
-  public city: City;
+  public city: Cities;
   public previewImage: string;
   public images: string[];
   public isPremium: boolean;
