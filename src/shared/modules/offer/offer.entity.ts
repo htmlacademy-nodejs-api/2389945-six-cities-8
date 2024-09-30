@@ -3,16 +3,16 @@ import {
   getModelForClass,
   prop,
   modelOptions,
+  Ref
 } from '@typegoose/typegoose';
 import {
   City,
-  Offer,
   Image,
   Goods,
-  User,
   Location,
 } from '../../types/index.js';
 import { OfferTypes } from '../../../const.js';
+import { UserEntity } from '../user/user.entity.js';
 
 const FieldProps = {
   MIN_TITLE_LENGTH: 10,
@@ -32,7 +32,7 @@ export interface OfferEntity extends defaultClasses.Base {}
   },
 })
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
+export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true,
     minlength: [
@@ -137,9 +137,10 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public goods: Goods[];
 
   @prop({
+    ref: UserEntity,
     required: true,
   })
-  public user: User;
+  public userId: Ref<UserEntity>;
 
   @prop({
     required: true,
