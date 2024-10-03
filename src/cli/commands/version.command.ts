@@ -6,7 +6,7 @@ import { Command } from './command.interface.js';
 
 type PackageJSONConfig = {
   version: string;
-}
+};
 
 function isPackageJSONConfig(value: unknown): value is PackageJSONConfig {
   return (
@@ -18,9 +18,7 @@ function isPackageJSONConfig(value: unknown): value is PackageJSONConfig {
 }
 
 export class VersionCommand implements Command {
-  constructor(
-    private readonly filePath: string = 'package.json'
-  ) { }
+  constructor(private readonly filePath: string = 'package.json') {}
 
   private readVersion(): string {
     const jsonContent = readFileSync(resolve(this.filePath), 'utf-8');
