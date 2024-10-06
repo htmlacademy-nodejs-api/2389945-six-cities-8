@@ -8,8 +8,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
       - ${DB_PORT}:27017
-    volumes:
-      - six-cities_data:/data/db
 
   db_ui:
     image: mongo-express:latest
@@ -24,5 +22,3 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
       ME_CONFIG_MONGODB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/
 
-volumes:
-  six-cities_data:
