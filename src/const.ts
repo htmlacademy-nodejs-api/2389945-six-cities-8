@@ -1,5 +1,10 @@
 import { City } from './shared/types/index.js';
 
+export enum Rating {
+  Min = 1,
+  Max = 5,
+}
+
 export enum Cities {
   Paris = 'Paris',
   Cologne = 'Cologne',
