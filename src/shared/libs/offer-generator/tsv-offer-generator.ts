@@ -8,8 +8,7 @@ import {
   getRandomItems,
   getFixedRandomString,
 } from '../../helpers/index.js';
-import { OfferTypes } from '../../../const.js';
-import { CityInfo } from '../../../const.js';
+import { OfferTypes, CityInfo, Rating } from '../../../const.js';
 
 const MIN_PRICE = 100;
 const MAX_PRICE = 100000;
@@ -22,9 +21,6 @@ const MAX_ROOMS = 8;
 
 const MIN_GUESTS = 1;
 const MAX_GUESTS = 10;
-
-const MIN_RATING = 1;
-const MAX_RATING = 5;
 
 const IMAGES_COUNT = 6;
 
@@ -43,7 +39,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const cityName = cityInfo.name;
     const isPremium = Boolean(generateRandomValue(0, 1)).toString();
     const isFavorite = Boolean(generateRandomValue(0, 1)).toString();
-    const rating = generateRandomValue(MIN_RATING, MAX_RATING, 1).toString();
+    const rating = generateRandomValue(Rating.Min, Rating.Max, 1).toString();
     const type = getRandomItem(Object.keys(OfferTypes));
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE).toString();
     const rooms = generateRandomValue(MIN_ROOMS, MAX_ROOMS).toString();
