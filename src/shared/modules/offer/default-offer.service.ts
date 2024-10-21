@@ -30,7 +30,7 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async find(): Promise<DocumentType<OfferEntity>[]> {
-    return this.offerModel.find().populate(['userId', 'categories']).exec();
+    return this.offerModel.find().populate(['userId']).exec();
   }
 
   public async deleteById(
@@ -45,7 +45,7 @@ export class DefaultOfferService implements OfferService {
   ): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, { new: true })
-      .populate(['userId'])
+      .populate(['offerId'])
       .exec();
   }
 
