@@ -6,6 +6,8 @@ import { Logger } from '../../libs/logger/index.js';
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
+//import { StatusCodes } from 'http-status-codes';
+//import { HttpError } from '../../libs/rest/index.js';
 //import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
