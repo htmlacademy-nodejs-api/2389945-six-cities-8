@@ -31,6 +31,11 @@ export default class OfferController extends BaseController {
     });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.delete,
+    });
   }
 
   public async show(
@@ -58,6 +63,24 @@ export default class OfferController extends BaseController {
     const result = await this.offerService.create(body);
     const offer = await this.offerService.findById(result.id);
     this.created(res, fillDTO(OfferRdo, offer));
+  }
+
+  public async delete(
+    { params }: Request<ParamOfferId>,
+    res: Response
+  ): Promise<void> {
+    const { offerId } = params;
+    const offer = await this.offerService.deleteById(offerId);
+
+    if (!offer) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id ${offerId} not found.`,
+        'OfferController'
+      );
+    }
+
+    this.noContent(res, offer);
   }
 
   public async index(_req: Request, res: Response) {
