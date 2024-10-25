@@ -10,6 +10,7 @@ import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { CommentRdo, CommentService } from '../comment/index.js';
+import { Cities } from '../../../const.js';
 import {
   BaseController,
   HttpError,
@@ -53,6 +54,16 @@ export default class OfferController extends BaseController {
       method: HttpMethod.Get,
       handler: this.getComments,
       middlewares: [new ValidateObjectIdMiddleware('offerId')],
+    });
+    this.addRoute({
+      path: '/bundles/premium',
+      method: HttpMethod.Get,
+      handler: this.getPremium,
+    });
+    this.addRoute({
+      path: '/bundles/favorites',
+      method: HttpMethod.Get,
+      handler: this.getFavorites,
     });
   }
 
@@ -137,6 +148,18 @@ export default class OfferController extends BaseController {
 
     const comments = await this.commentService.findByOfferId(params.offerId);
     this.ok(res, fillDTO(CommentRdo, comments));
+  }
+
+  public async getPremium(req: Request, res: Response): Promise<void> {
+    const { params } = req;
+    const cityName = params.cityName as Cities;
+    const offer = await this.offerService.findPremiumByCity(cityName);
+    this.ok(res, fillDTO(OfferRdo, offer));
+  }
+
+  public async getFavorites(_req: Request, res: Response): Promise<void> {
+    const offers = await this.offerService.findFavorites();
+    this.ok(res, fillDTO(OfferRdo, offers));
   }
 
   public async index(_req: Request, res: Response) {

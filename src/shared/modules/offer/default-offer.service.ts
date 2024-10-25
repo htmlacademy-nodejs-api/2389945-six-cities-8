@@ -6,6 +6,9 @@ import { Logger } from '../../libs/logger/index.js';
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
+import { Cities } from '../../../const.js';
+import { DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
+import { SortType } from '../../types/sort-type.enum.js';
 //import { StatusCodes } from 'http-status-codes';
 //import { HttpError } from '../../libs/rest/index.js';
 //import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
@@ -64,6 +67,25 @@ export class DefaultOfferService implements OfferService {
           commentCount: 1,
         },
       })
+      .exec();
+  }
+
+  async findPremiumByCity(cityName: Cities): Promise<OfferEntity[] | null> {
+    return this.offerModel
+      .find({
+        city: cityName,
+        isPremium: true,
+      })
+      .sort({ createdAt: SortType.Down })
+      .limit(DEFAULT_PREMIUM_OFFER_COUNT)
+      .populate(['userId'])
+      .exec();
+  }
+
+  async findFavorites(): Promise<OfferEntity[]> {
+    return this.offerModel
+      .find({ isFavorite: true })
+      .populate(['userId'])
       .exec();
   }
 }
