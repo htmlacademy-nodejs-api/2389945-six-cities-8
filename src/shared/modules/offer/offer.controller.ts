@@ -14,6 +14,7 @@ import {
   BaseController,
   HttpError,
   HttpMethod,
+  ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
 
 @injectable()
@@ -31,6 +32,7 @@ export default class OfferController extends BaseController {
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.show,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
