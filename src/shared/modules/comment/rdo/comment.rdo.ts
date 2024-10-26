@@ -14,7 +14,7 @@ export class CommentRdo {
   @Expose()
   public rating: number;
 
-  @Expose({ name: 'email' })
+  @Expose({ name: 'userId' })
   @Type(() => UserRdo)
-  public email: UserRdo;
+  public user: UserRdo;
 }
