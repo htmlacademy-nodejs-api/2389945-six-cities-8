@@ -19,7 +19,7 @@ import { Cities } from '../../../../const.js';
 import { OfferTypes } from '../../../../const.js';
 import { Goods } from '../../../types/goods.type.js';
 import { Location } from '../../../types/location.type.js';
-import { CreateOfferValidationMessage } from '../index.js';
+import { CreateOfferValidationMessage } from './create-offer.messages.js';
 
 export class CreateOfferDto {
   @MinLength(10, { message: CreateOfferValidationMessage.title.minLength })
