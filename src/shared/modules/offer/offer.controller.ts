@@ -11,10 +11,12 @@ import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { CommentRdo, CommentService } from '../comment/index.js';
 import { Cities } from '../../../const.js';
+import { CreateOfferDto } from './dto/create-offer.dto.js';
 import {
   BaseController,
   HttpError,
   HttpMethod,
+  ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
 
@@ -36,7 +38,12 @@ export default class OfferController extends BaseController {
       middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
-    this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)],
+    });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
