@@ -14,6 +14,7 @@ import {
   HttpError,
   HttpMethod,
   ValidateDtoMiddleware,
+  PrivateRouteMiddleware,
 } from '../../libs/rest/index.js';
 
 @injectable()
@@ -31,7 +32,10 @@ export default class CommentController extends BaseController {
       path: '/:offerId/comments',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateCommentDto)],
+      middlewares: [
+        new ValidateDtoMiddleware(CreateCommentDto),
+        new PrivateRouteMiddleware(),
+      ],
     });
   }
 
