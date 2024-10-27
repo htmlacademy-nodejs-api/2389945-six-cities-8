@@ -7,12 +7,6 @@ import {
 import { User } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/index.js';
 
-const minNameLength = 1;
-const maxNameLength = 15;
-
-//const minPasswordLength = 6;
-//const maxPasswordLength = 12;
-
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base {}
 
@@ -26,8 +20,6 @@ export interface UserEntity extends defaultClasses.Base {}
 export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     required: true,
-    minlength: [minNameLength, `Min length for name is ${minNameLength}`],
-    maxlength: [maxNameLength, `Max length for name is ${maxNameLength}`],
     default: '',
   })
   public name: string;
@@ -44,16 +36,6 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
 
   @prop({
     required: true,
-    /*
-    minlength: [
-      minPasswordLength,
-      `Min length for password is ${minPasswordLength}`,
-    ],
-    maxlength: [
-      maxPasswordLength,
-      `Max length for password is ${maxPasswordLength}`,
-    ],
-    */
     default: '',
   })
   private password?: string;
@@ -76,6 +58,11 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
 
   public getPassword() {
     return this.password;
+  }
+
+  public verifyPassword(password: string, salt: string) {
+    const hashPassword = createSHA256(password, salt);
+    return hashPassword === this.password;
   }
 }
 
