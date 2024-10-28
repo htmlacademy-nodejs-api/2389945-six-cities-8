@@ -8,7 +8,7 @@ import { CreateOfferRequest } from './type/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
-import { CommentRdo, CommentService } from '../comment/index.js';
+import { CommentService } from '../comment/index.js';
 import { Cities } from '../../../const.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import {
@@ -31,6 +31,7 @@ export default class OfferController extends BaseController {
     super(logger);
 
     this.logger.info('Register routes for OfferController');
+
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Get,
@@ -40,7 +41,9 @@ export default class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
+
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
+
     this.addRoute({
       path: '/',
       method: HttpMethod.Post,
@@ -50,6 +53,7 @@ export default class OfferController extends BaseController {
         new ValidateDtoMiddleware(CreateOfferDto),
       ],
     });
+
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
@@ -60,6 +64,7 @@ export default class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
+
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
@@ -71,20 +76,13 @@ export default class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
-    this.addRoute({
-      path: '/:offerId/comments',
-      method: HttpMethod.Get,
-      handler: this.getComments,
-      middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
-      ],
-    });
+
     this.addRoute({
       path: '/bundles/premium',
       method: HttpMethod.Get,
       handler: this.getPremium,
     });
+
     this.addRoute({
       path: '/bundles/favorites',
       method: HttpMethod.Get,
@@ -134,6 +132,7 @@ export default class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
+  /*
   public async getComments(
     { params }: Request<ParamOfferId>,
     res: Response
@@ -141,6 +140,7 @@ export default class OfferController extends BaseController {
     const comments = await this.commentService.findByOfferId(params.offerId);
     this.ok(res, fillDTO(CommentRdo, comments));
   }
+*/
 
   public async getPremium(req: Request, res: Response): Promise<void> {
     const { params } = req;

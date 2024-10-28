@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
@@ -14,8 +14,11 @@ import {
   HttpError,
   HttpMethod,
   ValidateDtoMiddleware,
+  ValidateObjectIdMiddleware,
   PrivateRouteMiddleware,
+  DocumentExistsMiddleware,
 } from '../../libs/rest/index.js';
+import { ParamOfferId } from '../offer/type/param-offerid.type.js';
 
 @injectable()
 export default class CommentController extends BaseController {
@@ -28,15 +31,36 @@ export default class CommentController extends BaseController {
     super(logger);
 
     this.logger.info('Register routes for CommentController…');
+
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
+    });
+
     this.addRoute({
       path: '/:offerId/comments',
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
         new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
+  }
+
+  public async getComments(
+    { params }: Request<ParamOfferId>,
+    res: Response
+  ): Promise<void> {
+    const comments = await this.commentService.findByOfferId(params.offerId);
+    this.ok(res, fillDTO(CommentRdo, comments));
   }
 
   public async create(
