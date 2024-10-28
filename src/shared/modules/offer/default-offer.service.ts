@@ -4,21 +4,24 @@ import { OfferService } from './offer-service.interface.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { OfferEntity } from './offer.entity.js';
+//import { CommentEntity } from './../comment/comment.entity.js';
+//import { UserEntity } from '../user/user.entity.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { Cities } from '../../../const.js';
 import { DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
 import { SortType } from '../../types/sort-type.enum.js';
-//import { StatusCodes } from 'http-status-codes';
-//import { HttpError } from '../../libs/rest/index.js';
-//import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.OfferModel)
-    private readonly offerModel: types.ModelType<OfferEntity>
+    private readonly offerModel: types.ModelType<OfferEntity>,
+    //@inject(Component.CommentModel)
+    //private readonly commentModel: types.ModelType<CommentEntity>,
+    //@inject(Component.UserModel)
+    //private readonly userModel: types.ModelType<UserEntity>
   ) {}
 
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
