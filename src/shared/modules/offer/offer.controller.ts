@@ -8,14 +8,17 @@ import { CreateOfferRequest } from './type/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
-import { CommentRdo, CommentService } from '../comment/index.js';
+import { CommentService } from '../comment/index.js';
 import { Cities } from '../../../const.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
+import { Config, RestSchema } from '../../libs/config/index.js';
+import { UploadImageRdo } from './rdo/upload-image.rdo.js';
 import {
   BaseController,
   DocumentExistsMiddleware,
   HttpMethod,
   PrivateRouteMiddleware,
+  UploadFileMiddleware,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest/index.js';
@@ -26,11 +29,13 @@ export default class OfferController extends BaseController {
     @inject(Component.Logger) protected logger: Logger,
     @inject(Component.OfferService) private readonly offerService: OfferService,
     @inject(Component.CommentService)
-    private readonly commentService: CommentService
+    private readonly commentService: CommentService,
+    @inject(Component.Config) private readonly configService: Config<RestSchema>
   ) {
     super(logger);
 
     this.logger.info('Register routes for OfferController');
+
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Get,
@@ -40,7 +45,9 @@ export default class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
+
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
+
     this.addRoute({
       path: '/',
       method: HttpMethod.Post,
@@ -50,6 +57,7 @@ export default class OfferController extends BaseController {
         new ValidateDtoMiddleware(CreateOfferDto),
       ],
     });
+
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
@@ -60,6 +68,7 @@ export default class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
+
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
@@ -71,24 +80,31 @@ export default class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
-    this.addRoute({
-      path: '/:offerId/comments',
-      method: HttpMethod.Get,
-      handler: this.getComments,
-      middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
-      ],
-    });
+
     this.addRoute({
       path: '/bundles/premium',
       method: HttpMethod.Get,
       handler: this.getPremium,
     });
+
     this.addRoute({
       path: '/bundles/favorites',
       method: HttpMethod.Get,
       handler: this.getFavorites,
+    });
+
+    this.addRoute({
+      path: '/:offerId/image',
+      method: HttpMethod.Post,
+      handler: this.uploadImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(
+          this.configService.get('UPLOAD_FILE_DIRECTORY'),
+          'image'
+        ),
+      ],
     });
   }
 
@@ -134,14 +150,6 @@ export default class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
-  public async getComments(
-    { params }: Request<ParamOfferId>,
-    res: Response
-  ): Promise<void> {
-    const comments = await this.commentService.findByOfferId(params.offerId);
-    this.ok(res, fillDTO(CommentRdo, comments));
-  }
-
   public async getPremium(req: Request, res: Response): Promise<void> {
     const { params } = req;
     const cityName = params.cityName as Cities;
@@ -157,5 +165,12 @@ export default class OfferController extends BaseController {
   public async index(_req: Request, res: Response) {
     const offers = await this.offerService.find();
     this.ok(res, fillDTO(OfferRdo, offers));
+  }
+
+  public async uploadImage({ params, file } : Request<ParamOfferId>, res: Response) {
+    const { offerId } = params;
+    const updateDto = { previewImage: file?.filename };
+    await this.offerService.updateById(offerId, updateDto);
+    this.created(res, fillDTO(UploadImageRdo, updateDto));
   }
 }

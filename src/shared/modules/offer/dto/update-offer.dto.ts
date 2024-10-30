@@ -26,7 +26,7 @@ export class UpdateOfferDto {
   @MinLength(10, { message: CreateUpdateOfferMessage.title.minLength })
   @MaxLength(100, { message: CreateUpdateOfferMessage.title.maxLength })
   @IsString({ message: CreateUpdateOfferMessage.title.invalidFormat })
-  public title: string;
+  public title?: string;
 
   @IsOptional()
   @MinLength(20, {
@@ -35,18 +35,18 @@ export class UpdateOfferDto {
   @MaxLength(1024, {
     message: CreateUpdateOfferMessage.description.maxLength,
   })
-  public description: string;
+  public description?: string;
 
   @IsOptional()
   @IsDateString(
     {},
     { message: CreateUpdateOfferMessage.postDate.invalidFormat }
   )
-  public postDate: Date;
+  public postDate?: Date;
 
   @IsOptional()
   @IsEnum(Cities, { message: CreateUpdateOfferMessage.city.invalid })
-  public city: Cities;
+  public city?: Cities;
 
   @IsOptional()
   @IsString({
@@ -56,20 +56,20 @@ export class UpdateOfferDto {
     { protocols: ['http', 'https'] },
     { message: CreateUpdateOfferMessage.previewImage.invalidFormat }
   )
-  public previewImage: string;
+  public previewImage?: string;
 
   @IsOptional()
   @IsArray({ message: CreateUpdateOfferMessage.images.invalidFormat })
   @Length(6, 6, { message: CreateUpdateOfferMessage.images.length })
-  public images: string[];
+  public images?: string[];
 
   @IsOptional()
   @IsBoolean({ message: CreateUpdateOfferMessage.isPremium.invalidFormat })
-  public isPremium: boolean;
+  public isPremium?: boolean;
 
   @IsOptional()
   @IsBoolean({ message: CreateUpdateOfferMessage.isFavorite.invalidFormat })
-  public isFavorite: boolean;
+  public isFavorite?: boolean;
 
   @IsOptional()
   @IsNumber(
@@ -78,39 +78,39 @@ export class UpdateOfferDto {
   )
   @Min(1, { message: CreateUpdateOfferMessage.rating.minValue })
   @Max(5, { message: CreateUpdateOfferMessage.rating.maxValue })
-  public rating: number;
+  public rating?: number;
 
   @IsOptional()
   @IsEnum(OfferTypes, { message: CreateUpdateOfferMessage.type.invalid })
-  public type: OfferTypes;
+  public type?: OfferTypes;
 
   @IsOptional()
   @IsInt({ message: CreateUpdateOfferMessage.rooms.invalidFormat })
   @Min(1, { message: CreateUpdateOfferMessage.rooms.minValue })
   @Max(8, { message: CreateUpdateOfferMessage.rooms.maxValue })
-  public rooms: number;
+  public rooms?: number;
 
   @IsOptional()
   @IsInt({ message: CreateUpdateOfferMessage.guests.invalidFormat })
   @Min(1, { message: CreateUpdateOfferMessage.guests.minValue })
   @Max(10, { message: CreateUpdateOfferMessage.guests.maxValue })
-  public guests: number;
+  public guests?: number;
 
   @IsOptional()
   @IsInt({ message: CreateUpdateOfferMessage.price.invalidFormat })
   @Min(100, { message: CreateUpdateOfferMessage.price.minValue })
   @Max(100000, { message: CreateUpdateOfferMessage.price.maxValue })
-  public price: number;
+  public price?: number;
 
   @IsOptional()
   @IsArray({ message: CreateUpdateOfferMessage.goods.invalidFormat })
-  public goods: Goods[];
+  public goods?: Goods[];
 
   @IsOptional()
   @IsMongoId({ message: CreateUpdateOfferMessage.userId.invalidId })
-  public userId: string;
+  public userId?: string;
 
   @IsOptional()
   @IsObject({ message: CreateUpdateOfferMessage.location.invalidFormat })
-  public location: Location;
+  public location?: Location;
 }
