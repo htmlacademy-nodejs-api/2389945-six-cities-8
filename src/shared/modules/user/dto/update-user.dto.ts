@@ -9,6 +9,9 @@ export class UpdateUserDto {
   public email?: string;
 
   @IsString({ message: CreateUserMessages.password.invalidFormat })
+  public avatarPath?: string;
+
+  @IsString({ message: CreateUserMessages.password.invalidFormat })
   @Length(6, 12, { message: CreateUserMessages.password.lengthField })
   public password?: string;
 
