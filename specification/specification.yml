@@ -446,11 +446,11 @@ components:
           type: string
           example: 'hotel'
 
-        rooms:
+        bedrooms:
           type: number
           example: 2
 
-        guests:
+        maxAdults:
           type: number
           example: 3
 
@@ -523,11 +523,11 @@ components:
           type: string
           example: 'hotel'
 
-        rooms:
+        bedrooms:
           type: number
           example: 2
 
-        guests:
+        maxAdults:
           type: number
           example: 3
 
@@ -596,11 +596,11 @@ components:
           type: string
           example: 'hotel'
 
-        rooms:
+        bedrooms:
           type: number
           example: 2
 
-        guests:
+        maxAdults:
           type: number
           example: 3
 

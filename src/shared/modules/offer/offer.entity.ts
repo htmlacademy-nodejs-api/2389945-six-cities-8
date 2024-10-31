@@ -111,14 +111,14 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     min: 1,
     max: 8,
   })
-  public rooms: number;
+  public bedrooms: number;
 
   @prop({
     required: true,
     min: 1,
     max: 10,
   })
-  public guests: number;
+  public maxAdults: number;
 
   @prop({
     required: true,

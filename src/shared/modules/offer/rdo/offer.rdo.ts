@@ -39,10 +39,10 @@ export class OfferRdo {
   public type: OfferTypes;
 
   @Expose()
-  public rooms: number;
+  public bedrooms: number;
 
   @Expose()
-  public guests: number;
+  public maxAdults: number;
 
   @Expose()
   public price: number;

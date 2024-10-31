@@ -73,15 +73,15 @@ export class CreateOfferDto {
   @IsEnum(OfferTypes, { message: CreateOfferValidationMessage.type.invalid })
   public type: OfferTypes;
 
-  @IsInt({ message: CreateOfferValidationMessage.rooms.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.rooms.minValue })
-  @Max(8, { message: CreateOfferValidationMessage.rooms.maxValue })
-  public rooms: number;
+  @IsInt({ message: CreateOfferValidationMessage.bedrooms.invalidFormat })
+  @Min(1, { message: CreateOfferValidationMessage.bedrooms.minValue })
+  @Max(8, { message: CreateOfferValidationMessage.bedrooms.maxValue })
+  public bedrooms: number;
 
-  @IsInt({ message: CreateOfferValidationMessage.guests.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.guests.minValue })
-  @Max(10, { message: CreateOfferValidationMessage.guests.maxValue })
-  public guests: number;
+  @IsInt({ message: CreateOfferValidationMessage.maxAdults.invalidFormat })
+  @Min(1, { message: CreateOfferValidationMessage.maxAdults.minValue })
+  @Max(10, { message: CreateOfferValidationMessage.maxAdults.maxValue })
+  public maxAdults: number;
 
   @IsInt({ message: CreateOfferValidationMessage.price.invalidFormat })
   @Min(100, { message: CreateOfferValidationMessage.price.minValue })

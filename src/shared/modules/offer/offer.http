@@ -32,8 +32,8 @@ Content-Type: application/json
   "isFavorite": true,
   "rating": 3.3,
   "type": "house",
-  "rooms": 2,
-  "guests": 5,
+  "bedrooms": 2,
+  "maxAdults": 5,
   "price": 1715,
   "goods": [
     "Towels",
@@ -77,8 +77,8 @@ Content-Type: application/json
   "isFavorite": true,
   "rating": 3.3,
   "type": "house",
-  "rooms": 2,
-  "guests": 5,
+  "bedrooms": 2,
+  "maxAdults": 5,
   "price": 1715,
   "goods": [
     "Towels",
