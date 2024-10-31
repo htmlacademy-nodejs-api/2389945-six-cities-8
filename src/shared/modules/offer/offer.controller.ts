@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 import { OfferService } from './offer-service.interface.js';
+import { UserService } from '../user/user-service.interface.js';
 import { ParamOfferId } from './type/param-offerid.type.js';
 import { fillDTO } from '../../helpers/index.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
@@ -30,7 +31,10 @@ export default class OfferController extends BaseController {
     @inject(Component.OfferService) private readonly offerService: OfferService,
     @inject(Component.CommentService)
     private readonly commentService: CommentService,
-    @inject(Component.Config) private readonly configService: Config<RestSchema>
+    @inject(Component.Config)
+    private readonly configService: Config<RestSchema>,
+    @inject(Component.UserService)
+    protected readonly userService: UserService
   ) {
     super(logger);
 
@@ -157,8 +161,14 @@ export default class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 
-  public async getFavorites(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.findFavorites();
+  public async getFavorites(req: Request, res: Response): Promise<void> {
+    const {
+      tokenPayload: { email },
+    } = req;
+    const user = (await this.userService.findByEmail(email)) || {
+      favoriteOffers: [],
+    };
+    const offers = await this.offerService.findFavorites(user.favoriteOffers);
     this.ok(res, fillDTO(OfferRdo, offers));
   }
 
@@ -167,7 +177,10 @@ export default class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, offers));
   }
 
-  public async uploadImage({ params, file } : Request<ParamOfferId>, res: Response) {
+  public async uploadImage(
+    { params, file }: Request<ParamOfferId>,
+    res: Response
+  ) {
     const { offerId } = params;
     const updateDto = { previewImage: file?.filename };
     await this.offerService.updateById(offerId, updateDto);
