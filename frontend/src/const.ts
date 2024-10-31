@@ -32,9 +32,9 @@ export const MAX_COMMENT_LENGTH = 300;
 
 export enum AppRoute {
   Root = '/',
-  Login = '/login',
-  Register = '/register',
-  Favorites = '/favorites',
+  Login = 'users/login',
+  Register = 'users/register',
+  Favorites = 'users/favorites',
   Property = '/offer',
   Add = '/add',
   Edit = '/edit',
@@ -43,12 +43,12 @@ export enum AppRoute {
 
 export enum ApiRoute {
   Offers = '/offers',
-  Login = '/login',
-  Logout = '/logout',
-  Register = '/register',
+  Login = 'users/login',
+  Logout = 'users/logout',
+  Register = 'users/register',
   Avatar = '/avatar',
   Comments = '/comments',
-  Favorite = '/favorites',
+  Favorite = 'users/favorites',
   Premium = '/premium',
 }
 
