@@ -137,6 +137,12 @@ export default class OfferController extends BaseController {
         ),
       ],
     });
+
+    this.addRoute({
+      path: '/premium/:city',
+      method: HttpMethod.Get,
+      handler: this.getPremium,
+    });
   }
 
   public async show(
@@ -181,10 +187,7 @@ export default class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
-  public async modifyFavorite(
-    req: Request,
-    res: Response
-  ): Promise<void> {
+  public async modifyFavorite(req: Request, res: Response): Promise<void> {
     const { tokenPayload, method } = req;
     const { offerId } = req.params;
     const offers = await this.offerService.modifyFavorite(
@@ -221,8 +224,8 @@ export default class OfferController extends BaseController {
 
   public async getPremium(req: Request, res: Response): Promise<void> {
     const { params } = req;
-    const cityName = params.cityName as Cities;
-    const offer = await this.offerService.findPremiumByCity(cityName);
+    const city = params.city as Cities;
+    const offer = await this.offerService.findPremiumByCity(city);
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 
