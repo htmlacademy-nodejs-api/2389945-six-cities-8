@@ -103,6 +103,28 @@ export default class OfferController extends BaseController {
     });
 
     this.addRoute({
+      path: '/favorites/:offerId',
+      method: HttpMethod.Post,
+      handler: this.modifyFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
+    });
+
+    this.addRoute({
+      path: '/favorites/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.modifyFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
+    });
+
+    this.addRoute({
       path: '/offers/:offerId/image',
       method: HttpMethod.Post,
       handler: this.uploadImage,
@@ -157,6 +179,20 @@ export default class OfferController extends BaseController {
       body
     );
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
+  }
+
+  public async modifyFavorite(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const { tokenPayload, method } = req;
+    const { offerId } = req.params;
+    const offers = await this.offerService.modifyFavorite(
+      tokenPayload.id,
+      offerId,
+      method
+    );
+    this.ok(res, fillDTO(OfferRdo, offers));
   }
 
   public async getOffers(req: Request, res: Response): Promise<void> {
