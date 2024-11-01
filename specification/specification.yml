@@ -252,7 +252,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OfferEntity'
 
-  /favorite:
+  /favorites:
     get:
       tags:
         - offers
@@ -273,6 +273,44 @@ paths:
       responses:
         '201':
           description: Флаг избранного изменен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferEntity'
+
+  /favorites/{offerId}:
+    parameters:
+      - in: path
+        name: offerId
+        example: 672305e50879e26bfa47dd9d
+        description: id предложения
+        schema:
+          type: string
+        required: true
+    post:
+      tags:
+        - offers
+      summary: Добавить предложение в избранное
+      description: Добавление предложения в избранное
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Предложение добавлено в избранное
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferEntity'
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение из избранного
+      description: Удаление предложения из избранного
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Предложение удалено из избранного
           content:
             application/json:
               schema:

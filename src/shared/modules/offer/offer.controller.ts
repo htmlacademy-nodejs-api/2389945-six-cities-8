@@ -96,9 +96,10 @@ export default class OfferController extends BaseController {
     });
 
     this.addRoute({
-      path: '/bundles/favorites',
+      path: '/favorites',
       method: HttpMethod.Get,
       handler: this.getFavorites,
+      middlewares: [new PrivateRouteMiddleware()],
     });
 
     this.addRoute({

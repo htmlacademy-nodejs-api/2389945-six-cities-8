@@ -18,4 +18,9 @@ export interface OfferService extends DocumentExists {
   ): Promise<DocumentType<OfferEntity> | null>;
   incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   exists(documentId: string): Promise<boolean>;
+  modifyFavorite(
+    userId: string,
+    offerId: string,
+    method: string
+  ): Promise<DocumentType<OfferEntity> | null>;
 }
