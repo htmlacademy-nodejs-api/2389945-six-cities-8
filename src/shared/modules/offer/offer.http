@@ -1,5 +1,5 @@
 ## Получить объявление по идентификатору
-GET http://localhost:4000/offers/67151d8a9eceaadaf6cde02a HTTP/1.1
+GET http://localhost:4000/offers/672305e50879e26bfa47ddae HTTP/1.1
 
 ###
 
@@ -39,7 +39,7 @@ Content-Type: application/json
     "Towels",
     "Fridge"
   ],
-  "userId":  "6717a0b6001338f23bd03ca7",
+  "userId":  "6723326bb7dc90ac6c84947d",
   "location": {
     "latitude": 51.225402,
     "longitude": 6.776314

@@ -41,19 +41,13 @@ export default class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController');
 
     this.addRoute({
-      path: '/:offerId',
+      path: '/offers',
       method: HttpMethod.Get,
-      handler: this.show,
-      middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
-      ],
+      handler: this.getOffers,
     });
 
-    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
-
     this.addRoute({
-      path: '/',
+      path: '/offers',
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
@@ -63,7 +57,17 @@ export default class OfferController extends BaseController {
     });
 
     this.addRoute({
-      path: '/:offerId',
+      path: '/offers/:offerId',
+      method: HttpMethod.Get,
+      handler: this.getOffer,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
+    });
+
+    this.addRoute({
+      path: '/offers/:offerId',
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
@@ -74,7 +78,7 @@ export default class OfferController extends BaseController {
     });
 
     this.addRoute({
-      path: '/:offerId',
+      path: '/offers/:offerId',
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
@@ -98,7 +102,7 @@ export default class OfferController extends BaseController {
     });
 
     this.addRoute({
-      path: '/:offerId/image',
+      path: '/offers/:offerId/image',
       method: HttpMethod.Post,
       handler: this.uploadImage,
       middlewares: [
@@ -152,6 +156,30 @@ export default class OfferController extends BaseController {
       body
     );
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
+  }
+
+  public async getOffers(req: Request, res: Response): Promise<void> {
+    const { tokenPayload } = req;
+    const offers = await this.offerService.find();
+
+    if (tokenPayload) {
+      const user = await this.userService.findByEmail(tokenPayload.email);
+      if (user) {
+        offers.map((offer) => {
+          offer.isFavorite = user.favoriteOffers.includes(offer.id);
+        });
+      }
+    }
+
+    this.ok(res, fillDTO(OfferRdo, offers));
+  }
+
+  public async getOffer(
+    { params }: Request<ParamOfferId>,
+    res: Response
+  ): Promise<void> {
+    const offer = await this.offerService.findById(params.offerId);
+    this.ok(res, fillDTO(OfferRdo, offer));
   }
 
   public async getPremium(req: Request, res: Response): Promise<void> {
