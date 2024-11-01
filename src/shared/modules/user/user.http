@@ -1,7 +1,7 @@
 # Пользователи
 ## Создать нового пользователя
 
-POST http://localhost:4000/users/register HTTP/1.1
+POST http://localhost:4000/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ## Авторизовать пользователя
 
-POST http://localhost:4000/users/login HTTP/1.1
+POST http://localhost:4000/login HTTP/1.1
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ## Отправить изображение
 
-POST http://localhost:4000/users/671cf791b7713700cd2bcae2/avatar HTTP/1.1
+POST http://localhost:4000/users/6723326bb7dc90ac6c84947d/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -41,13 +41,13 @@ Content-Type: image/png
 ###
 
 ## Проверить токен пользователя
-GET http://localhost:4000/users/login HTTP/1.1
+GET http://localhost:4000/login HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Iml2YW5AaXZhbm92Lm5ldCIsIm5hbWUiOiJpdmFuX2l2YW5vdiIsImlkIjoiNjcyMzMyNmJiN2RjOTBhYzZjODQ5NDdkIiwiaWF0IjoxNzMwMzYxMDg5LCJleHAiOjE3MzA1MzM4ODl9.yQ0CTnsSbl407Mz_PMhzJog0gKxr7WFvdfk7P8T-wvY
 
 ###
 
 ### Выход из сессии
-DELETE http://localhost:4000/users/logout HTTP/1.1
+DELETE http://localhost:4000/logout HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Iml2YW5AaXZhbm92Lm5ldCIsIm5hbWUiOiJpdmFuX2l2YW5vdiIsImlkIjoiNjcyMzMyNmJiN2RjOTBhYzZjODQ5NDdkIiwiaWF0IjoxNzMwMzYxMDg5LCJleHAiOjE3MzA1MzM4ODl9.yQ0CTnsSbl407Mz_PMhzJog0gKxr7WFvdfk7P8T-wvY
 
 ###
