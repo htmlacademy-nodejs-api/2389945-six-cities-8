@@ -58,9 +58,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public description: string;
 
-  @prop({
-    required: true,
-  })
+  @prop()
   public postDate: Date;
 
   @prop({

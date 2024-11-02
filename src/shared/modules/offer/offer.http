@@ -1,5 +1,5 @@
 ## Получить объявление по идентификатору
-GET http://localhost:4000/offers/672305e50879e26bfa47ddae HTTP/1.1
+GET http://localhost:4000/offers/67259cf2d77a20ee8734932a HTTP/1.1
 
 ###
 
@@ -9,16 +9,23 @@ GET http://localhost:4000/offers HTTP/1.1
 ###
 
 ## Создать новое предложение
-POST http://localhost:4000/offers HTTP/1.1
+POST http://localhost:4000/offers/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Iml2YW5AaXZhbm92Lm5ldCIsIm5hbWUiOiJpdmFuX2l2YW5vdiIsImlkIjoiNjcyNWQxNjY3ZWU3ODEyMzgyODM0MTIzIiwiaWF0IjoxNzMwNTMxNzgyLCJleHAiOjE3MzA3MDQ1ODJ9.LBv9qVFponnOptd22JH3Xdmp2_7P4GuPlM6sraJYrmg
 
 {
   "title": "Canal View Prinsengracht",
   "description": "I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!",
   "postDate": {
-    "$date": "2024-09-25T06:06:50.197Z"
+    "$date": "2024-11-02T03:30:58.194Z"
   },
-  "city": "Dusseldorf",
+  "city": {
+    "name": "Dusseldorf",
+    "location": {
+      "latitude": 51.225402,
+      "longitude": 6.776314
+    }
+  },
   "previewImage": "https://16.design.htmlacademy.pro/static/hotel/1.jpg",
   "images": [
     "https://16.design.htmlacademy.pro/static/hotel/17.jpg",
@@ -29,8 +36,8 @@ Content-Type: application/json
     "https://16.design.htmlacademy.pro/static/hotel/3.jpg"
   ],
   "isPremium": true,
-  "isFavorite": true,
-  "rating": 3.3,
+  "isFavorite": false,
+  "rating": 3,
   "type": "house",
   "bedrooms": 2,
   "maxAdults": 5,
@@ -39,7 +46,7 @@ Content-Type: application/json
     "Towels",
     "Fridge"
   ],
-  "userId":  "6723326bb7dc90ac6c84947d",
+  "userId":  "67259f7710965f0c27c204ed",
   "location": {
     "latitude": 51.225402,
     "longitude": 6.776314
@@ -54,8 +61,9 @@ DELETE http://localhost:4000/offers/62825028a75295825778ac80 HTTP/1.1
 ###
 
 ## Обновить предложение
-PATCH http://localhost:4000/offers/652e71c6d9f30c786a73f139 HTTP/1.1
+PATCH http://localhost:4000/offers/67259cf2d77a20ee8734932a HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Iml2YW5AaXZhbm92Lm5ldCIsIm5hbWUiOiJpdmFuX2l2YW5vdiIsImlkIjoiNjcyNWQxNjY3ZWU3ODEyMzgyODM0MTIzIiwiaWF0IjoxNzMwNTMxNzgyLCJleHAiOjE3MzA3MDQ1ODJ9.LBv9qVFponnOptd22JH3Xdmp2_7P4GuPlM6sraJYrmg
 
 {
 "title": "Canal View Prinsengracht",
@@ -84,7 +92,7 @@ Content-Type: application/json
     "Towels",
     "Fridge"
   ],
-  "userId":  "6717a0b6001338f23bd03ca7",
+  "userId":  "67259f7710965f0c27c204ed",
   "location": {
     "latitude": 51.225402,
     "longitude": 6.776314
@@ -100,7 +108,7 @@ GET http://localhost:4000/offers/628a27d729c45f2bf9f6806a/comments HTTP/1.1
 
 ## Загрузить изображение для предложения
 POST http://localhost:4000/offers/65258514a30fc6ef77c0edf7/image HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJmaXJzdG5hbWUiOiJKYWNrIiwibGFzdG5hbWUiOiJUb3JyYW5jZSIsImlkIjoiNjUyNTk2ZjdlMGE2OTEyZDI5MzA1ZGQ2IiwiaWF0IjoxNjk4Njc3ODAyLCJleHAiOjE2OTg4NTA2MDJ9.HDAdzzjP9Cnfrl9c_TdIzXdjAls2dboO_FU-bScOwmU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Iml2YW5AaXZhbm92Lm5ldCIsIm5hbWUiOiJpdmFuX2l2YW5vdiIsImlkIjoiNjcyNWQxNjY3ZWU3ODEyMzgyODM0MTIzIiwiaWF0IjoxNzMwNTMxNzgyLCJleHAiOjE3MzA3MDQ1ODJ9.LBv9qVFponnOptd22JH3Xdmp2_7P4GuPlM6sraJYrmg
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW

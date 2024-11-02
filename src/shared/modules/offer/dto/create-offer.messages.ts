@@ -11,11 +11,11 @@ export const CreateOfferValidationMessage = {
   },
 
   postDate: {
-    invalidFormat: 'createdDate must be a valid ISO date',
+    invalidFormat: 'postDate must be a valid ISO date',
   },
 
   city: {
-    invalid: 'Invalid city name',
+    invalid: 'Invalid city object',
   },
 
   previewImage: {

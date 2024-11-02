@@ -1,14 +1,15 @@
 import {
   IsArray,
   IsBoolean,
-  IsDateString,
+  //IsDateString,
   IsEnum,
   IsInt,
   IsNumber,
   IsObject,
   IsString,
   IsUrl,
-  Length,
+  ArrayMinSize,
+  ArrayMaxSize,
   Max,
   MaxLength,
   Min,
@@ -36,10 +37,6 @@ export class CreateOfferDto {
   })
   public description: string;
 
-  @IsDateString(
-    {},
-    { message: CreateOfferValidationMessage.postDate.invalidFormat }
-  )
   public postDate: Date;
 
   @ValidateNested()
@@ -56,7 +53,13 @@ export class CreateOfferDto {
   public previewImage: string;
 
   @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
-  @Length(6, 6, { message: CreateOfferValidationMessage.images.length })
+  @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
+  @ArrayMinSize(6, {
+    message: CreateOfferValidationMessage.images.length,
+  })
+  @ArrayMaxSize(6, {
+    message: CreateOfferValidationMessage.images.length,
+  })
   public images: string[];
 
   @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })

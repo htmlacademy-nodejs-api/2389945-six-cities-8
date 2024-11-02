@@ -11,7 +11,7 @@ export const CreateUpdateOfferMessage = {
   },
 
   postDate: {
-    invalidFormat: 'createdDate must be a valid ISO date',
+    invalidFormat: 'postDate must be a valid ISO date',
   },
 
   city: {

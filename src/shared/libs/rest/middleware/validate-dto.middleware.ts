@@ -18,7 +18,7 @@ export class ValidateDtoMiddleware implements Middleware {
 
     if (errors.length > 0) {
       throw new ValidationError(
-        `Validation error: ${path}`,
+        `Validation error: ${path} ${errors}`,
         reduceValidationErrors(errors)
       );
     }
