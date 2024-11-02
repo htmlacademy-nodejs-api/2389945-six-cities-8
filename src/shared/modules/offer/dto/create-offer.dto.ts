@@ -13,12 +13,14 @@ import {
   MaxLength,
   Min,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
-import { Cities } from '../../../../const.js';
+import { CityDto } from './city.dto.js';
 import { OfferTypes } from '../../../../const.js';
 import { Goods } from '../../../types/goods.type.js';
 import { Location } from '../../../types/location.type.js';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
+import { Type } from 'class-transformer';
 
 export class CreateOfferDto {
   @MinLength(10, { message: CreateOfferValidationMessage.title.minLength })
@@ -40,8 +42,9 @@ export class CreateOfferDto {
   )
   public postDate: Date;
 
-  @IsEnum(Cities, { message: CreateOfferValidationMessage.city.invalid })
-  public city: Cities;
+  @ValidateNested()
+  @Type(() => CityDto)
+  public city: CityDto;
 
   @IsString({
     message: CreateOfferValidationMessage.previewImage.invalidFormat,
