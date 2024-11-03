@@ -3,7 +3,7 @@ export const CreateCommentValidationMessage = {
     invalidId: 'offerId field must be a valid id',
   },
 
-  text: {
+  comment: {
     minLength: 'Minimum comment length must be 5',
     maxLength: 'Maximum comment length must be 1024',
     invalidFormat: 'text must be a string',

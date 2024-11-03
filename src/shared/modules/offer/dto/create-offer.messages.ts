@@ -11,11 +11,11 @@ export const CreateOfferValidationMessage = {
   },
 
   postDate: {
-    invalidFormat: 'createdDate must be a valid ISO date',
+    invalidFormat: 'postDate must be a valid ISO date',
   },
 
   city: {
-    invalid: 'Invalid city name',
+    invalid: 'Invalid city object',
   },
 
   previewImage: {
@@ -41,15 +41,15 @@ export const CreateOfferValidationMessage = {
     maxValue: 'Maximum price is 200000',
   },
 
-  rooms: {
-    invalidFormat: 'Rooms must be an integer',
+  bedrooms: {
+    invalidFormat: 'bedrooms must be an integer',
     minValue: 'Minimum rooms is 1',
     maxValue: 'Maximum rooms is 8',
   },
 
-  guests: {
-    invalidFormat: 'Guests must be an integer',
-    minValue: 'Minimum guests is 1',
+  maxAdults: {
+    invalidFormat: 'maxAdults must be an integer',
+    minValue: 'Minimum maxAdults is 1',
     maxValue: 'Maximum maxAdults is 10',
   },
 

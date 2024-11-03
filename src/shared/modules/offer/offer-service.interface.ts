@@ -10,7 +10,7 @@ export interface OfferService extends DocumentExists {
   findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   find(): Promise<DocumentType<OfferEntity>[]>;
   findPremiumByCity(cities: Cities): Promise<OfferEntity[] | null>;
-  findFavorites(): Promise<OfferEntity[]>;
+  findFavorites(favoritesId: string[]): Promise<OfferEntity[] | null>;
   deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   updateById(
     offerId: string,
@@ -18,4 +18,9 @@ export interface OfferService extends DocumentExists {
   ): Promise<DocumentType<OfferEntity> | null>;
   incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   exists(documentId: string): Promise<boolean>;
+  modifyFavorite(
+    userId: string,
+    offerId: string,
+    method: string
+  ): Promise<DocumentType<OfferEntity> | null>;
 }

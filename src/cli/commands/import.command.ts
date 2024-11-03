@@ -23,7 +23,6 @@ import {
 import { Logger } from '../../shared/libs/logger/index.js';
 import { ConsoleLogger } from '../../shared/libs/logger/console.logger.js';
 import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
-//import { CommentModel } from '../../shared/modules/comment/comment.entity.js';
 
 export class ImportCommand implements Command {
   private userService: UserService;
@@ -37,8 +36,11 @@ export class ImportCommand implements Command {
     this.onCompleteImport = this.onCompleteImport.bind(this);
 
     this.logger = new ConsoleLogger();
-    this.offerService = new DefaultOfferService(this.logger, OfferModel);
-    //this.offerService = new DefaultOfferService(this.logger, OfferModel, CommentModel, UserModel);
+    this.offerService = new DefaultOfferService(
+      this.logger,
+      OfferModel,
+      UserModel
+    );
     this.userService = new DefaultUserService(this.logger, UserModel);
     this.databaseClient = new MongoDatabaseClient(this.logger);
   }
@@ -53,30 +55,32 @@ export class ImportCommand implements Command {
   }
 
   private async saveOffer(offer: Offer) {
-    const user = await this.userService.findOrCreate({
-      ...offer.user,
-      password: DEFAULT_USER_PASSWORD
-    }, this.salt);
+    const user = await this.userService.findOrCreate(
+      {
+        ...offer.user,
+        password: DEFAULT_USER_PASSWORD,
+      },
+      this.salt
+    );
 
     await this.offerService.create({
       title: offer.title,
       description: offer.description,
       postDate: offer.postDate,
-      city: offer.city.name,
+      city: offer.city,
       previewImage: offer.previewImage,
       images: offer.images,
       isPremium: offer.isPremium,
       isFavorite: offer.isFavorite,
       rating: offer.rating,
       type: offer.type,
-      rooms: offer.rooms,
-      guests: offer.guests,
+      bedrooms: offer.bedrooms,
+      maxAdults: offer.maxAdults,
       price: offer.price,
       goods: offer.goods,
       userId: user.id,
       location: offer.location,
     });
-
   }
 
   private onCompleteImport(count: number) {
@@ -84,7 +88,14 @@ export class ImportCommand implements Command {
     this.databaseClient.disconnect();
   }
 
-  public async execute(filename: string, login: string, password: string, host: string, dbname: string, salt: string): Promise<void> {
+  public async execute(
+    filename: string,
+    login: string,
+    password: string,
+    host: string,
+    dbname: string,
+    salt: string
+  ): Promise<void> {
     const uri = getMongoURI(login, password, host, DEFAULT_DB_PORT, dbname);
     this.salt = salt;
 

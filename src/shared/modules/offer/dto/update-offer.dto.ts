@@ -85,16 +85,16 @@ export class UpdateOfferDto {
   public type?: OfferTypes;
 
   @IsOptional()
-  @IsInt({ message: CreateUpdateOfferMessage.rooms.invalidFormat })
-  @Min(1, { message: CreateUpdateOfferMessage.rooms.minValue })
-  @Max(8, { message: CreateUpdateOfferMessage.rooms.maxValue })
-  public rooms?: number;
+  @IsInt({ message: CreateUpdateOfferMessage.bedrooms.invalidFormat })
+  @Min(1, { message: CreateUpdateOfferMessage.bedrooms.minValue })
+  @Max(8, { message: CreateUpdateOfferMessage.bedrooms.maxValue })
+  public bedrooms?: number;
 
   @IsOptional()
-  @IsInt({ message: CreateUpdateOfferMessage.guests.invalidFormat })
-  @Min(1, { message: CreateUpdateOfferMessage.guests.minValue })
-  @Max(10, { message: CreateUpdateOfferMessage.guests.maxValue })
-  public guests?: number;
+  @IsInt({ message: CreateUpdateOfferMessage.maxAdults.invalidFormat })
+  @Min(1, { message: CreateUpdateOfferMessage.maxAdults.minValue })
+  @Max(10, { message: CreateUpdateOfferMessage.maxAdults.maxValue })
+  public maxAdults?: number;
 
   @IsOptional()
   @IsInt({ message: CreateUpdateOfferMessage.price.invalidFormat })

@@ -1,8 +1,9 @@
 import { Expose, Type } from 'class-transformer';
 import { UserRdo } from '../../user/rdo/user.rdo.js';
-import { Cities, OfferTypes } from '../../../../const.js';
+import { OfferTypes } from '../../../../const.js';
 import { Goods } from '../../../types/goods.type.js';
 import { Location } from '../../../types/location.type.js';
+import { City } from '../../../types/city.type.js';
 
 export class OfferRdo {
   @Expose()
@@ -18,7 +19,7 @@ export class OfferRdo {
   public postDate: string;
 
   @Expose()
-  public city: Cities;
+  public city: City;
 
   @Expose()
   public previewImage: string;
@@ -39,22 +40,16 @@ export class OfferRdo {
   public type: OfferTypes;
 
   @Expose()
-  public rooms: number;
+  public bedrooms: number;
 
   @Expose()
-  public guests: number;
+  public maxAdults: number;
 
   @Expose()
   public price: number;
 
   @Expose()
   public goods: Goods[];
-
-  /*
-  @Expose()
-  @Type(() => CategoryRdo)
-  public categories: CategoryRdo[];
-*/
 
   @Expose({ name: 'userId' })
   @Type(() => UserRdo)

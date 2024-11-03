@@ -1,47 +1,51 @@
 import {
   IsArray,
   IsBoolean,
-  IsDateString,
   IsEnum,
   IsInt,
-  IsNumber,
   IsObject,
   IsString,
   IsUrl,
-  Length,
+  ArrayMinSize,
+  ArrayMaxSize,
   Max,
   MaxLength,
   Min,
   MinLength,
+  ValidateNested,
+  IsOptional,
 } from 'class-validator';
-import { Cities } from '../../../../const.js';
+import { CityDto } from './city.dto.js';
 import { OfferTypes } from '../../../../const.js';
 import { Goods } from '../../../types/goods.type.js';
 import { Location } from '../../../types/location.type.js';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
+import { Type } from 'class-transformer';
+import { OfferFieldProps } from '../const.js';
 
 export class CreateOfferDto {
-  @MinLength(10, { message: CreateOfferValidationMessage.title.minLength })
-  @MaxLength(100, { message: CreateOfferValidationMessage.title.maxLength })
+  @MinLength(OfferFieldProps.MIN_TITLE_LENGTH, {
+    message: CreateOfferValidationMessage.title.minLength,
+  })
+  @MaxLength(OfferFieldProps.MAX_TITLE_LENGTH, {
+    message: CreateOfferValidationMessage.title.maxLength,
+  })
   @IsString({ message: CreateOfferValidationMessage.title.invalidFormat })
   public title: string;
 
-  @MinLength(20, {
+  @MinLength(OfferFieldProps.MIN_DESCRIPTION_LENGTH, {
     message: CreateOfferValidationMessage.description.minLength,
   })
-  @MaxLength(1024, {
+  @MaxLength(OfferFieldProps.MAX_DESCRIPTION_LENGTH, {
     message: CreateOfferValidationMessage.description.maxLength,
   })
   public description: string;
 
-  @IsDateString(
-    {},
-    { message: CreateOfferValidationMessage.postDate.invalidFormat }
-  )
   public postDate: Date;
 
-  @IsEnum(Cities, { message: CreateOfferValidationMessage.city.invalid })
-  public city: Cities;
+  @ValidateNested()
+  @Type(() => CityDto)
+  public city: CityDto;
 
   @IsString({
     message: CreateOfferValidationMessage.previewImage.invalidFormat,
@@ -53,35 +57,36 @@ export class CreateOfferDto {
   public previewImage: string;
 
   @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
-  @Length(6, 6, { message: CreateOfferValidationMessage.images.length })
+  @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
+  @ArrayMinSize(OfferFieldProps.IMAGES_COUNT, {
+    message: CreateOfferValidationMessage.images.length,
+  })
+  @ArrayMaxSize(OfferFieldProps.IMAGES_COUNT, {
+    message: CreateOfferValidationMessage.images.length,
+  })
   public images: string[];
 
   @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })
   public isPremium: boolean;
 
+  @IsOptional()
   @IsBoolean({ message: CreateOfferValidationMessage.isFavorite.invalidFormat })
   public isFavorite: boolean;
 
-  @IsNumber(
-    { maxDecimalPlaces: 1 },
-    { message: CreateOfferValidationMessage.rating.invalidFormat }
-  )
-  @Min(1, { message: CreateOfferValidationMessage.rating.minValue })
-  @Max(5, { message: CreateOfferValidationMessage.rating.maxValue })
   public rating: number;
 
   @IsEnum(OfferTypes, { message: CreateOfferValidationMessage.type.invalid })
   public type: OfferTypes;
 
-  @IsInt({ message: CreateOfferValidationMessage.rooms.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.rooms.minValue })
-  @Max(8, { message: CreateOfferValidationMessage.rooms.maxValue })
-  public rooms: number;
+  @IsInt({ message: CreateOfferValidationMessage.bedrooms.invalidFormat })
+  @Min(1, { message: CreateOfferValidationMessage.bedrooms.minValue })
+  @Max(8, { message: CreateOfferValidationMessage.bedrooms.maxValue })
+  public bedrooms: number;
 
-  @IsInt({ message: CreateOfferValidationMessage.guests.invalidFormat })
-  @Min(1, { message: CreateOfferValidationMessage.guests.minValue })
-  @Max(10, { message: CreateOfferValidationMessage.guests.maxValue })
-  public guests: number;
+  @IsInt({ message: CreateOfferValidationMessage.maxAdults.invalidFormat })
+  @Min(1, { message: CreateOfferValidationMessage.maxAdults.minValue })
+  @Max(10, { message: CreateOfferValidationMessage.maxAdults.maxValue })
+  public maxAdults: number;
 
   @IsInt({ message: CreateOfferValidationMessage.price.invalidFormat })
   @Min(100, { message: CreateOfferValidationMessage.price.minValue })

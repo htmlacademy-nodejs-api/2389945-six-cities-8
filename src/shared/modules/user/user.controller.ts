@@ -14,6 +14,7 @@ import { LoginUserDto } from './dto/login-user.dto.js';
 import { AuthService } from '../auth/index.js';
 import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
 import { UploadUserAvatarRdo } from './rdo/upload-user-avatar.rdo.js';
+import { PrivateRouteMiddleware } from '../../libs/rest/middleware/private-route.middleware.js';
 import {
   BaseController,
   HttpError,
@@ -66,6 +67,13 @@ export class UserController extends BaseController {
       method: HttpMethod.Get,
       handler: this.checkAuthenticate,
     });
+
+    this.addRoute({
+      path: '/logout',
+      method: HttpMethod.Delete,
+      handler: this.logout,
+      middlewares: [new PrivateRouteMiddleware()],
+    });
   }
 
   public async create(
@@ -104,6 +112,14 @@ export class UserController extends BaseController {
       res,
       fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatarPath })
     );
+  }
+
+  public async logout(req: Request, res: Response): Promise<void> {
+    const {
+      tokenPayload: { email },
+    } = req;
+    await this.userService.findByEmail(email);
+    this.noContent(res, {});
   }
 
   public async checkAuthenticate(
