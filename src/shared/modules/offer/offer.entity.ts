@@ -3,23 +3,12 @@ import {
   getModelForClass,
   prop,
   modelOptions,
-  Ref
+  Ref,
 } from '@typegoose/typegoose';
-import {
-  City,
-  Goods,
-  Location,
-} from '../../types/index.js';
+import { City, Goods, Location } from '../../types/index.js';
 import { OfferTypes } from '../../../const.js';
 import { UserEntity } from '../user/user.entity.js';
-
-const FieldProps = {
-  MIN_TITLE_LENGTH: 10,
-  MAX_TITLE_LENGTH: 100,
-  MIN_DESCRIPTION_LENGTH: 20,
-  MAX_DESCRIPTION_LENGTH: 1024,
-  IMAGES_COUNT: 6,
-};
+import { OfferFieldProps } from './const.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -35,12 +24,12 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true,
     minlength: [
-      FieldProps.MIN_TITLE_LENGTH,
-      `Min length for title is ${FieldProps.MIN_TITLE_LENGTH}`,
+      OfferFieldProps.MIN_TITLE_LENGTH,
+      `Min length for title is ${OfferFieldProps.MIN_TITLE_LENGTH}`,
     ],
     maxlength: [
-      FieldProps.MAX_TITLE_LENGTH,
-      `Max length for title is ${FieldProps.MAX_TITLE_LENGTH}`,
+      OfferFieldProps.MAX_TITLE_LENGTH,
+      `Max length for title is ${OfferFieldProps.MAX_TITLE_LENGTH}`,
     ],
   })
   public title: string;
@@ -48,12 +37,12 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true,
     minlength: [
-      FieldProps.MIN_DESCRIPTION_LENGTH,
-      `Min length for title is ${FieldProps.MIN_DESCRIPTION_LENGTH}`,
+      OfferFieldProps.MIN_DESCRIPTION_LENGTH,
+      `Min length for title is ${OfferFieldProps.MIN_DESCRIPTION_LENGTH}`,
     ],
     maxlength: [
-      FieldProps.MAX_DESCRIPTION_LENGTH,
-      `Max length for title is ${FieldProps.MAX_DESCRIPTION_LENGTH}`,
+      OfferFieldProps.MAX_DESCRIPTION_LENGTH,
+      `Max length for title is ${OfferFieldProps.MAX_DESCRIPTION_LENGTH}`,
     ],
   })
   public description: string;
@@ -72,31 +61,22 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true,
     minlength: [
-      FieldProps.IMAGES_COUNT,
-      `Min images count is ${FieldProps.IMAGES_COUNT}`,
+      OfferFieldProps.IMAGES_COUNT,
+      `Min images count is ${OfferFieldProps.IMAGES_COUNT}`,
     ],
     maxlength: [
-      FieldProps.IMAGES_COUNT,
-      `Max images count is ${FieldProps.IMAGES_COUNT}`,
+      OfferFieldProps.IMAGES_COUNT,
+      `Max images count is ${OfferFieldProps.IMAGES_COUNT}`,
     ],
   })
   public images: string[];
 
-  @prop({
-    required: true,
-  })
+  @prop()
   public isPremium: boolean;
 
-  @prop({
-    required: true,
-  })
   public isFavorite: boolean;
 
-  @prop({
-    required: true,
-    min: 1,
-    max: 5,
-  })
+  @prop()
   public rating: number;
 
   @prop({
@@ -106,28 +86,28 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    min: 1,
-    max: 8,
+    min: OfferFieldProps.MIN_BEDROOMS,
+    max: OfferFieldProps.MAX_BEDROOMS,
   })
   public bedrooms: number;
 
   @prop({
     required: true,
-    min: 1,
-    max: 10,
+    min: OfferFieldProps.MIN_ADULTS,
+    max: OfferFieldProps.MAX_ADULTS,
   })
   public maxAdults: number;
 
   @prop({
     required: true,
-    min: 100,
-    max: 100000,
+    min: OfferFieldProps.MIN_PRICE,
+    max: OfferFieldProps.MAX_PRICE,
   })
   public price: number;
 
   @prop({
     required: true,
-    minlength: 1,
+    minlength: OfferFieldProps.MIN_GOODS,
   })
   public goods: Goods[];
 

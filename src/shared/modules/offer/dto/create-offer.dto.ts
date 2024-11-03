@@ -1,10 +1,8 @@
 import {
   IsArray,
   IsBoolean,
-  //IsDateString,
   IsEnum,
   IsInt,
-  IsNumber,
   IsObject,
   IsString,
   IsUrl,
@@ -15,6 +13,7 @@ import {
   Min,
   MinLength,
   ValidateNested,
+  IsOptional,
 } from 'class-validator';
 import { CityDto } from './city.dto.js';
 import { OfferTypes } from '../../../../const.js';
@@ -22,17 +21,22 @@ import { Goods } from '../../../types/goods.type.js';
 import { Location } from '../../../types/location.type.js';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
 import { Type } from 'class-transformer';
+import { OfferFieldProps } from '../const.js';
 
 export class CreateOfferDto {
-  @MinLength(10, { message: CreateOfferValidationMessage.title.minLength })
-  @MaxLength(100, { message: CreateOfferValidationMessage.title.maxLength })
+  @MinLength(OfferFieldProps.MIN_TITLE_LENGTH, {
+    message: CreateOfferValidationMessage.title.minLength,
+  })
+  @MaxLength(OfferFieldProps.MAX_TITLE_LENGTH, {
+    message: CreateOfferValidationMessage.title.maxLength,
+  })
   @IsString({ message: CreateOfferValidationMessage.title.invalidFormat })
   public title: string;
 
-  @MinLength(20, {
+  @MinLength(OfferFieldProps.MIN_DESCRIPTION_LENGTH, {
     message: CreateOfferValidationMessage.description.minLength,
   })
-  @MaxLength(1024, {
+  @MaxLength(OfferFieldProps.MAX_DESCRIPTION_LENGTH, {
     message: CreateOfferValidationMessage.description.maxLength,
   })
   public description: string;
@@ -54,10 +58,10 @@ export class CreateOfferDto {
 
   @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
   @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
-  @ArrayMinSize(6, {
+  @ArrayMinSize(OfferFieldProps.IMAGES_COUNT, {
     message: CreateOfferValidationMessage.images.length,
   })
-  @ArrayMaxSize(6, {
+  @ArrayMaxSize(OfferFieldProps.IMAGES_COUNT, {
     message: CreateOfferValidationMessage.images.length,
   })
   public images: string[];
@@ -65,15 +69,10 @@ export class CreateOfferDto {
   @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })
   public isPremium: boolean;
 
+  @IsOptional()
   @IsBoolean({ message: CreateOfferValidationMessage.isFavorite.invalidFormat })
   public isFavorite: boolean;
 
-  @IsNumber(
-    { maxDecimalPlaces: 1 },
-    { message: CreateOfferValidationMessage.rating.invalidFormat }
-  )
-  @Min(1, { message: CreateOfferValidationMessage.rating.minValue })
-  @Max(5, { message: CreateOfferValidationMessage.rating.maxValue })
   public rating: number;
 
   @IsEnum(OfferTypes, { message: CreateOfferValidationMessage.type.invalid })

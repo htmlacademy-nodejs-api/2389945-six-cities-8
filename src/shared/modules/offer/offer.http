@@ -16,9 +16,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Iml2YW5AaXZhbm92Lm5ldCIsI
 {
   "title": "Canal View Prinsengracht",
   "description": "I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!",
-  "postDate": {
-    "$date": "2024-11-02T03:30:58.194Z"
-  },
+  "postDate": "2024-11-02T03:30:58.194Z",
   "city": {
     "name": "Dusseldorf",
     "location": {
